@@ -465,7 +465,7 @@ public final class AzureUtil {
             return instanceId + "/" + Long.toString(timestamp);
         }
 
-        // two tags match if they have the same instance id and the timestamp diff is greater than Constants.AZURE_DEPLOYMENT_TIMEOUT
+        // two ui match if they have the same instance id and the timestamp diff is greater than Constants.AZURE_DEPLOYMENT_TIMEOUT
         public boolean matches(final DeploymentTag rhs) {
             return matches(rhs, Constants.AZURE_DEPLOYMENT_TIMEOUT);
         }

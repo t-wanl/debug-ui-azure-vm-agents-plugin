@@ -222,6 +222,7 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
             final String  imageTopLevelType,
             final boolean imageReference,
             final ImageReferenceTypeClass imageReferenceTypeClass,
+            final String imageReferenceTypeClassSelected,
             final String agentLaunchMethod,
             final Boolean preInstallSsh,
             final String initScript,
@@ -819,6 +820,15 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
             return model;
         }
 
+
+        public void doFillImageReferenceTypeClassSelectedItems(
+                /*@RelativePath("..")*/ @QueryParameter final String location)
+                throws IOException, ServletException {
+
+
+//                return "test_return";
+        }
+
         public ListBoxModel doFillStorageAccountTypeItems(
                 @QueryParameter final String virtualMachineSize)
                 throws IOException, ServletException {
@@ -912,6 +922,8 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
             model.add("Unmanaged Disk", Constants.DISK_UNMANAGED);
             return model;
         }
+
+
 
         public FormValidation doAgentLaunchMethod(@QueryParameter final String value) {
             if (Constants.LAUNCH_METHOD_JNLP.equals(value)) {
@@ -1032,15 +1044,17 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
                 @QueryParameter String nsgName,
                 @QueryParameter String retentionTimeInMin,
                 @QueryParameter String jvmOptions,
-                @QueryParameter String imageReferenceType) {
+                @QueryParameter String imageReferenceTypeClassSelected) {
 
             /*
             imageReferenceType will not be passed to doVerifyConfiguration unless Jenkins core has https://github.com/jenkinsci/jenkins/pull/2734
             The plugin should be able to run in both modes.
             */
+
+            System.out.println("ref = " + imageReferenceTypeClassSelected);
             ImageReferenceType referenceType = ImageReferenceType.UNKNOWN;
-            if (imageReferenceType != null) {
-                referenceType = imageReferenceType.equals("custom") ? ImageReferenceType.CUSTOM : ImageReferenceType.REFERENCE;
+            if (imageReferenceTypeClassSelected != null) {
+                referenceType = imageReferenceTypeClassSelected.equals("custom") ? ImageReferenceType.CUSTOM : ImageReferenceType.REFERENCE;
             }
             AzureCredentials.ServicePrincipal servicePrincipal = AzureCredentials.getServicePrincipal(azureCredentialsId);
             String resourceGroupName = AzureVMCloud.getResourceGroupName(resourceGroupReferenceType, newResourceGroupName, existingResourceGroupName);
@@ -1110,6 +1124,8 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
                             nsgName,
                             retentionTimeInMin,
                             jvmOptions});
+
+            LOGGER.log(Level.INFO, "imageReferenceType = {0}\n",  new Object[]{imageReferenceTypeClassSelected});
 
             // First validate the subscription info.  If it is not correct,
             // then we can't validate the

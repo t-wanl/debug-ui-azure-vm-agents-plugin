@@ -251,7 +251,7 @@ public class AzureVMAgentCleanUpTask extends AsyncPeriodicWork {
         try {
             final List<String> validVMs = getValidVMs(cloudName);
             final Azure azureClient = TokenCache.getInstance(servicePrincipal).getAzureClient();
-            //can't use listByTag because for some reason that method strips all the tags from the outputted resources (https://github.com/Azure/azure-sdk-for-java/issues/1436)
+            //can't use listByTag because for some reason that method strips all the ui from the outputted resources (https://github.com/Azure/azure-sdk-for-java/issues/1436)
             final PagedList<GenericResource> resources = azureClient.genericResources().listByGroup(resourceGroup);
 
             if (resources == null || resources.isEmpty()) {

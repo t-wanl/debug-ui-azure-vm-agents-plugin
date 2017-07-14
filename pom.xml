@@ -173,6 +173,15 @@
             <artifactId>cloud-stats</artifactId>
             <version>0.11</version>
         </dependency>
+
+
+
+        <!--<dependency>-->
+            <!--<groupId>albertxavier</groupId>-->
+            <!--<artifacuitags</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
+
     </dependencies>
 
     <scm>
@@ -183,6 +192,8 @@
     </scm>
 
     <repositories>
+
+
         <repository>
             <id>repo.jenkins-ci.org</id>
             <url>http://repo.jenkins-ci.org/public/</url>
@@ -197,6 +208,11 @@
             <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
             <url>http://repository.springsource.com/maven/bundles/external</url>
         </repository>
+        <!--<repository>-->
+            <!--<id>in.project</id>-->
+            <!--<name>Custom Tags</name>-->
+            <!--<url>file://${project.basedir}/src/libs</url>-->
+        <!--</repository>-->
     </repositories>
 
     <pluginRepositories>
