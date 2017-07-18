@@ -10,8 +10,19 @@ function updateDropdownListView (e, url, config) {
     console.log("updateDropdownListView l = ", l);
 
     config.onSuccess = function (rsp) {
+        console.log("select children length from e = ", e.childNodes.length);
+        console.log("select children length from l = ", l.childNodes.length);
+        console.log("select children from l = ", l.childNodes);
         console.log("success rsp = ", rsp);
-        l.selectedIndex = 1;
+        var selectedOption = rsp.responseText;
+
+        for (i=0; i<l.childNodes.length; i++) {
+            if (selectedOption == l.childNodes[i].value) {
+                l.selectedIndex = i;
+                break;
+            }
+        }
+//        l.selectedIndex = ;
         if (originalOnSuccess!=undefined)
             originalOnSuccess(rsp);
         l.removeClassName("select-ajax-pending");

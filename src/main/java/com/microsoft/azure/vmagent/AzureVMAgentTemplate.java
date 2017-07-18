@@ -221,7 +221,7 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
             final String osType,
             final String  imageTopLevelType,
             final boolean imageReference,
-            final ImageReferenceTypeClass imageReferenceTypeClass,
+            final ImageReferenceTypeClass imageReferenceTypeClassContent,
             final String imageReferenceTypeClassSelected,
             final String agentLaunchMethod,
             final Boolean preInstallSsh,
@@ -261,17 +261,17 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
         }
         setUsageMode(usageMode);
         this.imageTopLevelType = imageTopLevelType;
-        this.imageReferenceType = getImageReferenceType(imageReferenceTypeClass);
+        this.imageReferenceType = getImageReferenceType(imageReferenceTypeClassContent);
         this.builtInImage = builtInImage;
         this.isInstallDocker = isInstallDocker;
         this.isInstallGit = isInstallGit;
         this.isInstallMaven = isInstallMaven;
-        this.image = imageReferenceTypeClass.getImage();
+        this.image = imageReferenceTypeClassContent.getImage();
         this.osType = osType;
-        this.imagePublisher = imageReferenceTypeClass.getImagePublisher();
-        this.imageOffer = imageReferenceTypeClass.getImageOffer();
-        this.imageSku = imageReferenceTypeClass.getImageSku();
-        this.imageVersion = imageReferenceTypeClass.getImageVersion();
+        this.imagePublisher = imageReferenceTypeClassContent.getImagePublisher();
+        this.imageOffer = imageReferenceTypeClassContent.getImageOffer();
+        this.imageSku = imageReferenceTypeClassContent.getImageSku();
+        this.imageVersion = imageReferenceTypeClassContent.getImageVersion();
         this.shutdownOnIdle = shutdownOnIdle;
         this.initScript = initScript;
         this.agentLaunchMethod = agentLaunchMethod;
@@ -498,8 +498,8 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
         return imageTopLevelType;
     }
 
-    public String getImageReferenceType(ImageReferenceTypeClass imageReferenceTypeClass) {
-        if (imageReferenceTypeClass.image != null) {
+    public String getImageReferenceType(ImageReferenceTypeClass imageReferenceTypeClassContent) {
+        if (imageReferenceTypeClassContent.image != null) {
             return "custom";
         }
         return "reference";
@@ -820,13 +820,15 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
             return model;
         }
 
-
-        public void doFillImageReferenceTypeClassSelectedItems(
-                /*@RelativePath("..")*/ @QueryParameter final String location)
+        static final int TMP_LENGTH = 12;
+        public String doFillImageReferenceTypeClassSelectedItems(
+                /*@RelativePath("..")*/ @QueryParameter final String virtualMachineSize)
                 throws IOException, ServletException {
 
-
-//                return "test_return";
+                if (virtualMachineSize.length() <= TMP_LENGTH) {
+                    return "custom";
+                }
+                return "reference";
         }
 
         public ListBoxModel doFillStorageAccountTypeItems(
@@ -1028,12 +1030,12 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
                 @QueryParameter String noOfParallelJobs,
                 @QueryParameter String imageTopLevelType,
                 @QueryParameter String builtInImage,
-                @RelativePath("imageReferenceTypeClass") @QueryParameter String image,
+                @RelativePath("imageReferenceTypeClassContent") @QueryParameter String image,
                 @QueryParameter String osType,
-                @RelativePath("imageReferenceTypeClass") @QueryParameter String imagePublisher,
-                @RelativePath("imageReferenceTypeClass") @QueryParameter String imageOffer,
-                @RelativePath("imageReferenceTypeClass") @QueryParameter String imageSku,
-                @RelativePath("imageReferenceTypeClass") @QueryParameter String imageVersion,
+                @RelativePath("imageReferenceTypeClassContent") @QueryParameter String imagePublisher,
+                @RelativePath("imageReferenceTypeClassContent") @QueryParameter String imageOffer,
+                @RelativePath("imageReferenceTypeClassContent") @QueryParameter String imageSku,
+                @RelativePath("imageReferenceTypeClassContent") @QueryParameter String imageVersion,
                 @QueryParameter String agentLaunchMethod,
                 @QueryParameter String initScript,
                 @QueryParameter String credentialsId,
