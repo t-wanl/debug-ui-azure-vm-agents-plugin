@@ -29,6 +29,7 @@ import com.microsoft.azure.vmagent.util.AzureUtil;
 import com.microsoft.azure.vmagent.util.Constants;
 import com.microsoft.azure.vmagent.util.FailureStage;
 import com.microsoft.azure.vmagent.util.TokenCache;
+//import com.sun.org.apache.xpath.internal.operations.Bool;
 import hudson.Extension;
 import hudson.RelativePath;
 import hudson.model.*;
@@ -63,6 +64,54 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
         UNKNOWN,
         CUSTOM,
         REFERENCE,
+    }
+
+    public static class RadioBlockOut {
+        private String value;
+        private String albertxavierOut1;
+        private String albertxavierOut2;
+        @DataBoundConstructor
+        public RadioBlockOut(final String value, final String albertxavierOut1, final String albertxavierOut2) {
+            this.value = value;
+            this.albertxavierOut1 = albertxavierOut1;
+            this.albertxavierOut2 = albertxavierOut2;
+        }
+
+        public String getAlbertxavierOut1() {
+            return albertxavierOut1;
+        }
+
+        public String getAlbertxavierOut2() {
+            return albertxavierOut2;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    public static class RadioBlockDebug {
+        private String albertxavier1;
+        private String albertxavier2;
+        private String value;
+
+        @DataBoundConstructor
+        public RadioBlockDebug(final String albertxavier1, final String albertxavier2, final String value) {
+            this.albertxavier1 = albertxavier1;
+            this.albertxavier2 = albertxavier2;
+            this.value = value;
+        }
+        public String getAlbertxavier1() {
+            return albertxavier1;
+        }
+
+        public String getAlbertxavier2() {
+            return albertxavier2;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
     public static class ImageReferenceTypeClass {
@@ -135,6 +184,16 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
 
     private final boolean shutdownOnIdle;
 
+
+    // debug radioblock
+//    private String radioblockDebug;
+    private String albertxavierOut1;
+    private String albertxavierOut2;
+    private String albertxavier1;
+    private String albertxavier2;
+    private String albertxavierOutValue;
+    private String albertxavierValue;
+
     // Image Configuration
     private String imageTopLevelType;
 
@@ -200,6 +259,8 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
 
     private boolean doNotUseMachineIfInitFails;
 
+//    private RadioBlockDebug radioDebug;
+
     @DataBoundConstructor
     public AzureVMAgentTemplate(
             final String templateName,
@@ -239,7 +300,22 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
             final boolean templateDisabled,
             final String templateStatusDetails,
             final boolean executeInitScriptAsRoot,
-            final boolean doNotUseMachineIfInitFails) {
+            final boolean doNotUseMachineIfInitFails,
+            final RadioBlockDebug radioblockDebug,
+            final RadioBlockOut radioBlockOut
+            ) {
+
+        // debug radioblock
+//        this.radioblockDebug = radioblockDebug;
+        this.albertxavierOut1 = radioBlockOut.getAlbertxavierOut1();
+        this.albertxavierOut2 = radioBlockOut.getAlbertxavierOut2();
+        this.albertxavier1 = radioblockDebug.getAlbertxavier1();
+        this.albertxavier2 = radioblockDebug.getAlbertxavier2();
+        this.albertxavierValue = radioblockDebug.getValue();
+
+
+        this.albertxavierOutValue = radioBlockOut.getValue();
+
         this.templateName = templateName;
         this.templateDesc = templateDesc;
         this.labels = labels;
@@ -299,6 +375,9 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
 
         // Forms data which is not persisted
         labelDataSet = Label.parse(labels);
+
+        // debug radioblock
+        this.testRadioBlock = "test1";
     }
 
     public static Map<String, Object> getTemplateProperties(AzureVMAgentTemplate template) {
@@ -366,6 +445,20 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
             return true;
         }
         return type != null && type.equalsIgnoreCase(this.imageReferenceType);
+    }
+    private final String testRadioBlock;
+    public Boolean isRadioblockDebug(final String type) {
+        if (this.albertxavierValue == null && type.equals(this.testRadioBlock)) {
+            return true;
+        }
+        return type != null && type.equals(this.albertxavierValue);
+    }
+
+    public Boolean isRadioblockOut(final String type) {
+        if (this.albertxavierOutValue == null && type.equals(this.testRadioBlock)) {
+            return true;
+        }
+        return type != null && type.equals(this.albertxavierOutValue);
     }
 
     public Boolean isTopLevelType(final String type) {
@@ -454,6 +547,26 @@ public class AzureVMAgentTemplate implements Describable<AzureVMAgentTemplate> {
 
     public String getNewStorageAccountName() {
         return newStorageAccountName;
+    }
+
+//    public String getAlbertxavier() {
+//        return albertxavier;
+//    }
+
+    public String getAlbertxavier1() {
+        return albertxavier1;
+    }
+
+    public String getAlbertxavier2() {
+        return albertxavier2;
+    }
+
+    public String getAlbertxavierOut1() {
+        return albertxavierOut1;
+    }
+
+    public String getAlbertxavierOut2() {
+        return albertxavierOut2;
     }
 
     public String getExistingStorageAccountName() {

@@ -36,11 +36,11 @@
             </f:entry>
 
             <f:entry title="${%Storage_Account_Name}">
-                <f:radioBlock name="storageAccountNameReferenceType" value="new" title="${%Storage_Account_Create_New}" checked="${instance == null || instance.isStorageAccountNameReferenceTypeEquals('new')}" inline="true">
+                <t:radioBlock name="storageAccountNameReferenceType" value="new" title="${%Storage_Account_Create_New}" checked="${instance == null || instance.isStorageAccountNameReferenceTypeEquals('new')}" inline="true">
                     <f:entry field="newStorageAccountName" help="/plugin/azure-vm-agents/help-storageAccountName.html">
                         <f:textbox/>
                     </f:entry>
-                </f:radioBlock>
+                </t:radioBlock>
 
                 <f:radioBlock name="storageAccountNameReferenceType" value="existing" title="${%Storage_Account_Use_Exist}" checked="${instance.isStorageAccountNameReferenceTypeEquals('existing')}" inline="true">
                     <f:entry field="existingStorageAccountName" help="/plugin/azure-vm-agents/help-storageAccountName.html">
@@ -68,7 +68,22 @@
             </f:entry>
         </f:section>
 
+
+
         <f:section title="${%Image_Configuration}">
+
+            <f:radioBlock name="radioBlockOut" value="test1" title="Radio Block Test Out 1" checked="${instance == null || instance.isRadioblockOut('test1')}"  >
+                <f:entry title="Albert Xavier Out 1" field="albertxavierOut1">
+                    <f:textbox/>
+                </f:entry>
+            </f:radioBlock>
+
+            <f:radioBlock name="radioBlockOut" value="test2" title="Radio Block Test Out 2" checked="${instance.isRadioblockOut('test2')}"  >
+                <f:entry title="Albert Xavier Out 2" field="albertxavierOut2">
+                    <f:textbox/>
+                </f:entry>
+            </f:radioBlock>
+
             <f:radioBlock name="imageTopLevelType" value="basic" title="${%Built_In_Image}" checked="${instance == null || instance.isTopLevelType('basic')}"
                           inline="true">
                 <f:entry field="builtInImage">
@@ -90,7 +105,28 @@
                 </f:section>
             </f:radioBlock>
 
+            <!--<f:radioBlock name="radioblock_debug3" value="test3" title="Radio Block Test3" checked="${instance.isTopLevelType('advanced')}">-->
+
+                <!--<f:entry title="Albert Xavier 3" field="albertxavier3">-->
+                    <!--<f:textbox/>-->
+                <!--</f:entry>-->
+
+            <!--</f:radioBlock>-->
+
+
             <f:radioBlock name="imageTopLevelType" value="advanced" title="${%Advanced_Image}" checked="${instance.isTopLevelType('advanced')}" inline="true">
+
+                <f:radioBlock name="radioblockDebug" value="test1" title="Radio Block Test1" checked="${instance == null || instance.isRadioblockDebug('test1')}"  >
+                    <f:entry title="Albert Xavier 1" field="albertxavier1">
+                        <f:textbox/>
+                    </f:entry>
+                </f:radioBlock>
+                <f:radioBlock name="radioblockDebug" value="test2" title="Radio Block Test2" checked="${instance.isRadioblockDebug('test2')}" >
+                    <f:entry title="Albert Xavier 2" field="albertxavier2">
+                        <f:textbox/>
+                    </f:entry>
+                </f:radioBlock>
+
                 <t:dropdownList name="imageReferenceTypeClassSelected" tablename="imageReferenceTypeClassContent">
                     <f:dropdownListBlock title="${%Custom_Image}" value="custom" selected="${instance == null || instance.isType('custom')}">
                         <f:entry title="${%Image}" field="image" help="/plugin/azure-vm-agents/help-image.html">
