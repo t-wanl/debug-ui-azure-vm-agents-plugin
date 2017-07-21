@@ -10,52 +10,29 @@ var radioBlockSupport = {
 
     // update one block based on the status of the given radio button
     updateSingleButton : function(radio, blockStart, blockEnd) {
-//        console.log("updateSingleButton");
-//        console.log("radio = ", radio);
-//        console.log("blockStart = ", blockStart);
-//        console.log("blockEnd = ", blockEnd);
+        console.log("radio id = ", radio.id);
         var show = radio.checked;
-        if (radio.getAttribute("checked") == true && (radio.getAttribute("radioblock-inited") == undefined || radio.getAttribute("radioblock-inited") == "false")) {
-            show = radio.getAttribute("checked");
-            radio.setAttribute("radioblock-inited", "true");
+
+        if (radio.getAttribute("checked") == "true" &&
+            (radio.getAttribute("radioblock-init") == undefined ||
+            radio.getAttribute("radioblock-init") == "false")) {
+            show = true;
+            radio.setAttribute("radioblock-init", "true");
         }
 
-        if (show == false) {
-            // find the end node
-            var e = (function() {
-                var e = blockStart;
-                var cnt=1;
-                while(cnt>0) {
-                    e = $(e).next();
-                    if (Element.hasClassName(e,"radio-block-start")) {
-                        console.log("find end node e = ", e);
-                        var eles = e.getElementsByClassName("radio-block-control");
-                        console.log("ele", eles);
-                        for(i = 0; i < eles.length; i++) {
-                            eles[i].setAttribute("radioblock-inited", "true");
-                        }
-                        cnt++;
-                    }
-                    if (Element.hasClassName(e,"radio-block-end"))
-                        cnt--;
-                }
-                return e;
-            })();
-        }
+        $(blockStart).next().style.display = show ? "" : "none";
 
-        blockStart = $(blockStart);
-//        console.log("show = ", show);
-        if (blockStart.getAttribute('hasHelp') == 'true') {
-            n = blockStart.next();
-        } else {
-            n = blockStart;
-        }
-//        console.log("n = ", n);
-        while((n = n.next()) != blockEnd) {
-//            console.log("n = ", n);
-            n.style.display = show ? "" : "none";
-        }
-//        console.log("layoutUpdateCallback", layoutUpdateCallback);
+        console.log("show = ", show);
+        console.log("$(blockStart).next() = ", $(blockStart).next());
+//        blockStart = $(blockStart);
+//        if (blockStart.getAttribute('hasHelp') == 'true') {
+//            n = blockStart.next();
+//        } else {
+//            n = blockStart;
+//        }
+//        while((n = n.next()) != blockEnd) {
+//            n.style.display = show ? "" : "none";
+//        }
         layoutUpdateCallback.call();
     }
 };
@@ -100,9 +77,6 @@ Behaviour.specify("INPUT.radio-block-control", 'radioBlock', -100, function(r) {
         })();
 
         var u = function() {
-//            console.log("in u function, r = ", r);
-//            console.log("in u function, s = ", s);
-//            console.log("in u function, e = ", e);
             g.updateSingleButton(r,s,e);
         };
         g.buttons.push(u);
