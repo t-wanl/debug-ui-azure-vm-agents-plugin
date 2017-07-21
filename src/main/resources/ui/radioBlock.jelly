@@ -53,7 +53,7 @@ THE SOFTWARE.
   </st:documentation>
 
   <st:adjunct includes="ui.radioBlock.radioBlock"/>
-	<tr class="radio-block-start row-group-start ${attrs.inline?'':'row-set-start'}" hasHelp="${attrs.help!=null}"><!-- this ID marks the beginning -->
+	<tr class="radio-block-start row-group-start ${attrs.inline?'':'row-set-start'}" hasHelp="${attrs.help!=null}" ><!-- this ID marks the beginning -->
       <td class="setting-leftspace"><st:nbsp/></td>
       <td>
       <label>
@@ -69,12 +69,12 @@ THE SOFTWARE.
   </j:if>
 
 
-  <tr class="radioblock-invokeBody" width="100%">
+  <tr class="radioblock-invokeBody">
     <td class="setting-leftspace"><st:nbsp/></td>
     <!--<td class="setting-name">-->
     <!--</td>-->
-    <td class="setting-main">
-      <table>
+    <td class="setting-main" colspan="3">
+      <table width="100%">
         <d:invokeBody/>
       </table>
     </td>
